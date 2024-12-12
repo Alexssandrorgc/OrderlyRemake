@@ -1,10 +1,10 @@
 import { useState } from "react";
 import axios from "axios";
-import { useNavigate } from 'react-router-dom';
-import Visibility from '@mui/icons-material/Visibility';
-import VisibilityOff from '@mui/icons-material/VisibilityOff';
+import { useNavigate } from "react-router-dom";
+import Visibility from "@mui/icons-material/Visibility";
+import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import Card from "@mui/material/Card";
-import Input from '@mui/material/Input';
+import Input from "@mui/material/Input";
 import CardContent from "@mui/material/CardContent";
 import Button from "@mui/material/Button";
 import CardHeader from "@mui/material/CardHeader";
@@ -13,10 +13,10 @@ import createApiUrl from "../api";
 
 const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [error, setError] = useState(null);  // Estado para el mensaje de error
-  const navigate = useNavigate();  // Hook para navegar a otra ruta
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState(null); // Estado para el mensaje de error
+  const navigate = useNavigate(); // Hook para navegar a otra ruta
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -24,21 +24,24 @@ const Login = () => {
     setError(null); // Limpiar el error antes de hacer la solicitud
 
     try {
-      const response = await axios.post('http://localhost:8080/api/usuarios/login', {
-        email,
-        password
-      });
+      const response = await axios.post(
+        "http://localhost:8080/api/usuarios/login",
+        {
+          email,
+          password,
+        }
+      );
 
       // Si el rol es MESERO o ADMIN, redirigimos
       if (response.data.rol === "MESERO") {
         sessionStorage.setItem('userRole', 'MESERO'); // Guardar el rol
         console.log("¡Inicio de sesión exitoso como Mesero!");
-        navigate('/mesero');  // Redirige al mesero
+        navigate("/mesero"); // Redirige al mesero
       } else if (response.data.rol === "ADMIN") {
         sessionStorage.setItem('userRole', 'ADMIN'); // Guardar el rol
         console.log("User Role guardado en sessionStorage:", sessionStorage.getItem('userRole'));  // Verificar en consola
         console.log("¡Inicio de sesión exitoso como Admin!");
-        navigate('/admin');  // Redirige al admin
+        navigate("/admin"); // Redirige al admin
       } else {
         // Si el rol no es MESERO ni ADMIN
         setError("El usuario no tiene permisos para acceder.");
@@ -49,12 +52,19 @@ const Login = () => {
       setError("Correo o contraseña incorrectos.");
     }
   };
-  
+
   return (
-    <div style={{ minHeight: "100vh", justifyContent: 'center', alignItems: 'center', display: 'flex'}}>
+    <div
+      style={{
+        minHeight: "100vh",
+        justifyContent: "center",
+        alignItems: "center",
+        display: "flex",
+      }}
+    >
       <Card
         sx={{
-          maxWidth: '448px',
+          maxWidth: "448px",
           width: "100%",
           backgroundColor: "#242424",
           color: "white",
@@ -81,18 +91,27 @@ const Login = () => {
           }
         />
         <CardContent>
-          <Typography variant="h4" sx={{ color: 'while', fontWeight: 'bold' }}>
+          <Typography variant="h4" sx={{ color: "while", fontWeight: "bold" }}>
             Bienvenido
           </Typography>
-          <Typography variant="body2" sx={{ color: "#B0B0B0", marginBottom: "16px" }}>
+          <Typography
+            variant="body2"
+            sx={{ color: "#B0B0B0", marginBottom: "16px" }}
+          >
             Ingrese sus credenciales para acceder a su cuenta
           </Typography>
           {error && (
-            <Typography color="error" sx={{ marginBottom: "16px", textAlign: 'center' }}>
+            <Typography
+              color="error"
+              sx={{ marginBottom: "16px", textAlign: "center" }}
+            >
               {error}
             </Typography>
           )}
-          <form style={{ display: "flex", flexDirection: "column", gap: "16px" }} onSubmit={handleLogin}>
+          <form
+            style={{ display: "flex", flexDirection: "column", gap: "16px" }}
+            onSubmit={handleLogin}
+          >
             <div>
               <label htmlFor="email" style={{ color: "#e5e7eb" }}>
                 Usuario
@@ -184,7 +203,37 @@ const Login = () => {
                 },
               }}
             >
-              Iniciar sesión
+              Iniciar como administrador
+            </Button>
+            <Button
+              sx={{
+                width: "100%",
+                background: "linear-gradient(to right, #FFC0CB, #DDA0DD)",
+                color: "#1C1C1C",
+                fontWeight: "bold",
+                padding: "10px",
+                "&:hover": {
+                  background: "linear-gradient(to right, #FFB6C1, #BA55D3)",
+                },
+              }}
+              onClick={() => navigate("/tables")} // Redirige a la ruta '/mesero'
+            >
+              Mesero
+            </Button>
+            <Button
+              sx={{
+                width: "100%",
+                background: "linear-gradient(to right, #FFC0CB, #DDA0DD)",
+                color: "#1C1C1C",
+                fontWeight: "bold",
+                padding: "10px",
+                "&:hover": {
+                  background: "linear-gradient(to right, #FFB6C1, #BA55D3)",
+                },
+              }}
+              onClick={() => navigate("/orders")} // Redirige a la ruta '/mesero'
+            >
+              Cocinero
             </Button>
           </form>
         </CardContent>

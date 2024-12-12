@@ -3,7 +3,8 @@ import { useState, useEffect } from "react";
 import Table from "../components/Table/Table";
 import createApiUrl from "../api"; 
 import { useNavigate } from "react-router-dom";  // Importar useNavigate
-
+import { IconButton } from "@mui/material";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 const Tables = () => {
   const [selectedTable, setSelectedTable] = useState(null);
   const [mesas, setMesas] = useState([]);  
@@ -53,6 +54,19 @@ const Tables = () => {
 
   return (
     <Container>
+      <IconButton
+        onClick={() => navigate("/")}
+        sx={{
+          color: "#fff",
+          marginBottom: 2,
+          position: "absolute", // Fija su posición dentro del contenedor
+          left: "20px", // Ajusta la distancia desde el borde derecho
+          top: "20px", // Ajusta la distancia desde el borde superior
+          padding: "16px", // Ajusta el área interactiva del botón
+        }}
+      >
+        <ArrowBackIcon sx={{ fontSize: "40px" }} /> {/* Tamaño del ícono */}
+      </IconButton>
       <Box sx={{ display: "flex", flexDirection: "column", mt: 4 }}>
         <Typography variant="h4" sx={{ color: "#fff", fontWeight: "bold" }}>
           Selecciona una mesa
@@ -89,6 +103,7 @@ const Tables = () => {
           variant="contained"
           color="success"
           size="large"
+          sx={{ mr: 8 }}
           onClick={handleSelectTable}  // Llama a la función de selección
         >
           Crear Orden
