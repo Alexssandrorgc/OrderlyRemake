@@ -3,8 +3,12 @@ import Order from "../components/Order/OrderFactura";
 import { useLocation } from "react-router-dom";
 import { useEffect, useState } from "react";
 import createApiUrl from "../api";
+import { useNavigate } from "react-router-dom";  // Importar useNavigate
+import { IconButton } from "@mui/material";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 
 const Factura = () => {
+  const navigate = useNavigate();  // Inicializar el hook de navegación
   const location = useLocation();
   const selectedTable = location.state.selectedTable;
   const [orders, setOrders] = useState([]);
@@ -47,7 +51,7 @@ const Factura = () => {
       const response = await fetch(url, { method: "POST" });
       if (response.ok) {
         alert("Factura generada con éxito");
-        window.location.reload(); // Recarga la página
+        navigate("/Tables"); // Redirige al usuario
       } else {
         alert("Error al generar la factura");
       }
@@ -59,6 +63,31 @@ const Factura = () => {
 
   return (
     <Container>
+      <IconButton
+        onClick={() => navigate("/")}
+        sx={{
+          color: "#fff",
+          marginBottom: 2,
+          position: "absolute", // Fija su posición dentro del contenedor
+          left: "20px", // Ajusta la distancia desde el borde derecho
+          top: "20px", // Ajusta la distancia desde el borde superior
+          padding: "16px", // Ajusta el área interactiva del botón
+        }}
+      >
+        <ArrowBackIcon sx={{ fontSize: "40px" }} /> {/* Tamaño del ícono */}
+      </IconButton><IconButton
+        onClick={() => navigate("/Tables")}
+        sx={{
+          color: "#fff",
+          marginBottom: 2,
+          position: "absolute", // Fija su posición dentro del contenedor
+          left: "20px", // Ajusta la distancia desde el borde derecho
+          top: "20px", // Ajusta la distancia desde el borde superior
+          padding: "16px", // Ajusta el área interactiva del botón
+        }}
+      >
+        <ArrowBackIcon sx={{ fontSize: "40px" }} /> {/* Tamaño del ícono */}
+      </IconButton>
       {/* Botón para abrir el modal, alineado a la derecha */}
       <Button 
         variant="contained" 
@@ -66,11 +95,11 @@ const Factura = () => {
         sx={{ position: 'absolute', top: 30, right: 250 }} 
         onClick={() => setOpenModal(true)}
       >
-        Realizar factura
+        Pagar cuenta
       </Button>
 
       <Typography variant="h4" color="#fff" mt={3}>
-        Ordenes a Facturar
+        Ordenes completadas
       </Typography>
       <Typography variant="h6" color="#fff">Mesa {selectedTable}</Typography>
       <Typography variant="h6" color="#fff">
@@ -116,7 +145,7 @@ const Factura = () => {
           }}
         >
           <Typography id="modal-title" variant="h6" component="h2">
-            Ingresa tu correo (opcional)
+            Deseas tu factura ingrese email (opcional)
           </Typography>
           <TextField
             id="correo"
@@ -143,7 +172,7 @@ const Factura = () => {
                 setOpenModal(false); // Cierra el modal
               }}
             >
-              Crear factura
+              Pagar cuenta
             </Button>
           </Box>
         </Box>

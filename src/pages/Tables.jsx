@@ -1,13 +1,14 @@
 import { Alert, Box, Button, Container, Typography } from "@mui/material";
-import { useState, useEffect } from "react";  
+import { useState, useEffect } from "react";
 import Table from "../components/Table/Table";
-import createApiUrl from "../api"; 
+import createApiUrl from "../api";
 import { useNavigate } from "react-router-dom";  // Importar useNavigate
 import { IconButton } from "@mui/material";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+
 const Tables = () => {
   const [selectedTable, setSelectedTable] = useState(null);
-  const [mesas, setMesas] = useState([]);  
+  const [mesas, setMesas] = useState([]);
   const navigate = useNavigate();  // Inicializar el hook de navegación
 
   useEffect(() => {
@@ -15,13 +16,13 @@ const Tables = () => {
       try {
         const response = await fetch(createApiUrl('mesas'));
         const data = await response.json();
-        setMesas(data);  
+        setMesas(data);
       } catch (error) {
         console.error("Error fetching tables:", error);
       }
     };
 
-    fetchMesas();  
+    fetchMesas();
   }, []);
 
   const handleTableClick = (id) => {
@@ -50,7 +51,7 @@ const Tables = () => {
       alert("Por favor, selecciona una mesa.");
     }
   };
-  
+
 
   return (
     <Container>
@@ -80,31 +81,35 @@ const Tables = () => {
           mt: 4,
           display: "grid",
           gridTemplateColumns: {
-            xs: '1fr 1fr',
-            sm: '1fr 1fr',
-            md: '1fr 1fr 1fr 1fr',
+            xs: "1fr 1fr",
+            sm: "1fr 1fr",
+            md: "1fr 1fr 1fr 1fr",
           },
           gap: 2,
           justifyItems: "center",
           alignItems: "center",
-        }}>
+        }}
+      >
         {mesas.map((mesa) => (
           <Table
             key={mesa.id}
             idMesa={mesa.numero}
             selected={selectedTable === mesa.numero}
             onClick={handleTableClick}
-            disponible={mesa.disponible}  
+            disponible={mesa.disponible}
           />
         ))}
       </Box>
-      <Box sx={{ display: "flex", justifyContent: "center", mt: 5 }}>
+      <Box sx={{ display: "flex", justifyContent: "center", mt: 5, gap: 2 }}>
         <Button
           variant="contained"
           color="success"
           size="large"
-          sx={{ mr: 8 }}
-          onClick={handleSelectTable}  // Llama a la función de selección
+          sx={{
+            width: { xs: "100%", sm: "250px" },
+            height: "50px",
+          }}
+          onClick={handleSelectTable}
         >
           Crear Orden
         </Button>
@@ -112,9 +117,13 @@ const Tables = () => {
           variant="contained"
           color="success"
           size="large"
-          onClick={handleSelectTableFactura}  // Llama a la función de selección
+          sx={{
+            width: { xs: "100%", sm: "250px" },
+            height: "50px",
+          }}
+          onClick={handleSelectTableFactura}
         >
-          Cerrar Orden
+          Ordenes completadas
         </Button>
       </Box>
     </Container>
