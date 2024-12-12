@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { Box, List, ListItem, Button, Typography, Modal, TextField, MenuItem } from "@mui/material";
 import createApiUrl from "../api"; // Verifica que esté correctamente configurado
 
-const roles = ["ADMIN", "MESERO", "COCINERO"]; // Ajusta según los roles disponibles en tu sistema
+const roles = ["ADMIN"]; // Ajusta según los roles disponibles en tu sistema
 
 const GestionUsuarios = () => {
   const [usuarios, setUsuarios] = useState([]);

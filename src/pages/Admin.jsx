@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Box,
   Typography,
@@ -19,11 +19,34 @@ import GestionMesas from "./GestionMesas";
 import GestionProductos from "./GestionProductos.jsx";
 import GestionUsuarios from "./GestionUsuarios.jsx";
 import GestionGanancias from "./GestionGanancias.jsx";
+import OrdenesAdmin from "./OrdenesAdmin.jsx"
+import ShoppingCartIcon from "@mui/icons-material/ShoppingCart"; // Importa el ícono de carrito de compras
+
 
 const AdminMenu = () => {
   const [selectedIndex, setSelectedIndex] = useState(0);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const navigate = useNavigate();
+
+  // Detectar cambios en el tamaño de la ventana
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth >= 600) {
+        setIsSidebarOpen(true);  // El sidebar se muestra completamente en pantallas grandes
+      } else {
+        setIsSidebarOpen(false);  // El sidebar se oculta en pantallas pequeñas
+      }
+    };
+
+    window.addEventListener("resize", handleResize);
+
+    // Llamamos a la función para ajustar el estado inicial del sidebar
+    handleResize();
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
 
   const handleListItemClick = (event, index) => {
     setSelectedIndex(index);
@@ -61,7 +84,7 @@ const AdminMenu = () => {
           height: "100%",
           width: { xs: isSidebarOpen ? "230px" : "0", sm: "230px" },
           backgroundColor: "#1c1c1c",
-          padding: isSidebarOpen ? "16px" : { xs: "0", sm: "16px" },
+          padding: { xs: isSidebarOpen ? "16px" : "0", sm: "16px" },
           display: "flex",
           flexDirection: "column",
           justifyContent: "space-between",
@@ -117,6 +140,15 @@ const AdminMenu = () => {
                 </ListItemIcon>
                 <ListItemText primary="Ganancias" />
               </ListItemButton>
+              <ListItemButton
+                selected={selectedIndex === 4}
+                onClick={(event) => handleListItemClick(event, 4)}
+              >
+                <ListItemIcon sx={{ color: "#fff" }}>
+                  <ShoppingCartIcon/>
+                </ListItemIcon>
+                <ListItemText primary="Ordenes" />
+              </ListItemButton>
             </List>
           </div>
         )}
@@ -151,6 +183,8 @@ const AdminMenu = () => {
         {selectedIndex === 0 && <GestionProductos />}
         {selectedIndex === 1 && <GestionUsuarios />}
         {selectedIndex === 3 && <GestionGanancias />}
+        {selectedIndex === 4 && <OrdenesAdmin/>}
+
       </Box>
     </Box>
   );

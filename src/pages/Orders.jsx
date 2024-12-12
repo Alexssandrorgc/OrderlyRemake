@@ -32,29 +32,36 @@ const Orders = () => {
 
   // Función para actualizar el estatus de la orden
   const actualizarEstatus = (id, nuevoEstatus) => {
-    axios
-      .put(
-        `http://localhost:8080/api/ordenes/${id}`,
-        { estatus: nuevoEstatus }, // Asegúrate de enviar un objeto JSON
-        {
-          headers: { "Content-Type": "application/json" },
-        }
-      )
-      .then((response) => {
-        setOrdenes((prevOrdenes) =>
-          prevOrdenes.map((orden) =>
-            orden.id === id ? { ...orden, estatus: nuevoEstatus } : orden
-          )
-        );
-      })
-      .catch((error) => {
-        console.error("Error al actualizar el estatus:", error);
-      });
+    // Confirmación antes de actualizar
+    const confirmacion = window.confirm("¿Completar esta orden?");
+
+    if (confirmacion) {
+      axios
+        .put(
+          `http://localhost:8080/api/ordenes/${id}`,
+          { estatus: nuevoEstatus }, // Asegúrate de enviar un objeto JSON
+          {
+            headers: { "Content-Type": "application/json" },
+          }
+        )
+        .then((response) => {
+          setOrdenes((prevOrdenes) =>
+            prevOrdenes.map((orden) =>
+              orden.id === id ? { ...orden, estatus: nuevoEstatus } : orden
+            )
+          );
+        })
+        .catch((error) => {
+          console.error("Error al actualizar el estatus:", error);
+        });
+    } else {
+      console.log("La actualización fue cancelada.");
+    }
   };
 
   return (
     <Container>
-       <Box
+      <Box
         sx={{
           display: 'flex',
           alignItems: 'center',
@@ -99,90 +106,90 @@ const Orders = () => {
           gap: 2,
         }}
       >
-        {ordenes.map((orden) => (
-          <Paper elevation={2} sx={{ p: 2, borderRadius: 2 }} key={orden.id}>
-            <Container>
-              <Box>
-                <Box
-                  sx={{
-                    display: "flex",
-                    justifyContent: "space-between",
-                    alignItems: "center",
-                    mb: 2,
-                  }}
-                >
-                  <Box>
-                    <Typography variant="subtitle1" sx={{ fontWeight: 600 }}>
-                      Mesero: {orden.mesero}
-                    </Typography>
-                    <Typography variant="body2" color="text.secondary">
-                      Orden #{orden.id}
-                    </Typography>
-                    <Typography variant="body2" color="text.secondary">
-                      Mesa: {orden.mesa}
-                    </Typography>
-                    <Typography variant="body2" color="text.secondary">
-                      Total: ${orden.precioTotal.toFixed(2)}
-                    </Typography>
-                  </Box>
-                  <Chip
-                    icon={<AccessTimeIcon />}
-                    label={orden.estatus}
-                    color={
-                      orden.estatus === "pendiente" ? "warning" : "success"
-                    }
-                  />
-                </Box>
-
-                <Divider sx={{ mb: 2 }} />
-
-                <Box
-                  sx={{
-                    display: "flex",
-                    justifyContent: "space-between",
-                    fontWeight: 600,
-                    mb: 1,
-                  }}
-                >
-                  <Typography variant="subtitle2">Alimentos</Typography>
-                  <Typography variant="subtitle2" sx={{ textAlign: "center" }}>
-                    Cantidad
-                  </Typography>
-                </Box>
-
-                {orden.articulos.map((articulo) => (
+        {ordenes
+          .filter((orden) => orden.estatus === "pendiente") // Filtra las órdenes con estatus "pendiente"
+          .map((orden) => (
+            <Paper elevation={2} sx={{ p: 2, borderRadius: 2 }} key={orden.id}>
+              <Container>
+                <Box>
                   <Box
-                    key={articulo.id}
                     sx={{
                       display: "flex",
                       justifyContent: "space-between",
+                      alignItems: "center",
+                      mb: 2,
+                    }}
+                  >
+                    <Box>
+                      <Typography variant="subtitle1" sx={{ fontWeight: 600 }}>
+                        Mesero: {orden.mesero}
+                      </Typography>
+                      <Typography variant="body2" color="text.secondary">
+                        Orden #{orden.id}
+                      </Typography>
+                      <Typography variant="body2" color="text.secondary">
+                        Mesa: {orden.mesa}
+                      </Typography>
+                      <Typography variant="body2" color="text.secondary">
+                        Total: ${orden.precioTotal.toFixed(2)}
+                      </Typography>
+                    </Box>
+                    <Chip
+                      icon={<AccessTimeIcon />}
+                      label={orden.estatus}
+                      color={orden.estatus === "pendiente" ? "warning" : "success"}
+                    />
+                  </Box>
+
+                  <Divider sx={{ mb: 2 }} />
+
+                  <Box
+                    sx={{
+                      display: "flex",
+                      justifyContent: "space-between",
+                      fontWeight: 600,
                       mb: 1,
                     }}
                   >
-                    <Typography variant="body2">{articulo.nombre}</Typography>
-                    <Typography variant="body2" sx={{ textAlign: "center" }}>
-                      {articulo.cantidad}
+                    <Typography variant="subtitle2">Alimentos</Typography>
+                    <Typography variant="subtitle2" sx={{ textAlign: "center" }}>
+                      Cantidad
                     </Typography>
                   </Box>
-                ))}
 
-                <Divider sx={{ my: 2 }} />
+                  {orden.articulos.map((articulo) => (
+                    <Box
+                      key={articulo.id}
+                      sx={{
+                        display: "flex",
+                        justifyContent: "space-between",
+                        mb: 1,
+                      }}
+                    >
+                      <Typography variant="body2">{articulo.nombre}</Typography>
+                      <Typography variant="body2" sx={{ textAlign: "center" }}>
+                        {articulo.cantidad}
+                      </Typography>
+                    </Box>
+                  ))}
 
-                <Box>
-                  <Button
-                    variant="outlined"
-                    color="primary"
-                    fullWidth
-                    onClick={() => actualizarEstatus(orden.id, "Completada")}
-                    disabled={orden.estatus === "Completada"}
-                  >
-                    Iniciar Orden
-                  </Button>
+                  <Divider sx={{ my: 2 }} />
+
+                  <Box>
+                    <Button
+                      variant="outlined"
+                      color="primary"
+                      fullWidth
+                      onClick={() => actualizarEstatus(orden.id, "Completada")}
+                      disabled={orden.estatus === "Completada"}
+                    >
+                      Completar Orden
+                    </Button>
+                  </Box>
                 </Box>
-              </Box>
-            </Container>
-          </Paper>
-        ))}
+              </Container>
+            </Paper>
+          ))}
       </Box>
     </Container>
   );
