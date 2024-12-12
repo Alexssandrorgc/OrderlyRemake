@@ -53,14 +53,14 @@ const AdminMenu = () => {
               <ListItemText primary="Productos" />
             </ListItemButton>
 
-            {/*}
+            
             <ListItemButton selected={selectedIndex === 1} onClick={(event) => handleListItemClick(event, 1)}>
               <ListItemIcon sx={{ color: "#fff" }}>
                 <AssignmentIndIcon />
               </ListItemIcon>
               <ListItemText primary="Usuarios" />
             </ListItemButton>
-            */}
+            
             
             <ListItemButton selected={selectedIndex === 2} onClick={(event) => handleListItemClick(event, 2)}>
               <ListItemIcon sx={{ color: "#fff" }}>

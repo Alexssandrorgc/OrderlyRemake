@@ -73,42 +73,62 @@ const GestionUsuarios = () => {
   };
 
   const updateUsuario = async (id) => {
-    try {
-      const response = await fetch(createApiUrl(`usuarios/${id}`), {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(newUsuario),
-      });
-      if (response.ok) {
-        fetchUsuarios();
-        handleCloseModal();
-      } else {
-        console.error('Error al actualizar usuario');
+    // Mostrar una confirmación antes de proceder con la actualización
+    const isConfirmed = window.confirm("¿Estás seguro de que deseas actualizar este usuario?");
+  
+    if (isConfirmed) {
+      try {
+        const response = await fetch(createApiUrl(`usuarios/${id}`), {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(newUsuario),
+        });
+  
+        if (response.ok) {
+          fetchUsuarios();  // Recargar la lista de usuarios después de la actualización
+          handleCloseModal();  // Cerrar el modal
+        } else {
+          console.error('Error al actualizar usuario');
+        }
+      } catch (error) {
+        console.error('Error al actualizar usuario:', error);
       }
-    } catch (error) {
-      console.error('Error al actualizar usuario:', error);
+    } else {
+      // Si el usuario cancela la acción, mostrar mensaje en la consola
+      console.log('Actualización de usuario cancelada');
     }
   };
+  
 
   const deleteUsuario = async (id) => {
-    try {
-      const response = await fetch(createApiUrl(`usuarios/${id}`), {
-        method: 'DELETE',
-      });
-      if (response.ok) {
-        fetchUsuarios();
-      } else {
-        console.error('Error al eliminar usuario');
+    // Mostrar una confirmación antes de proceder con la eliminación
+    const isConfirmed = window.confirm("¿Estás seguro de que deseas eliminar este usuario? Esta acción no se puede deshacer.");
+  
+    if (isConfirmed) {
+      try {
+        const response = await fetch(createApiUrl(`usuarios/${id}`), {
+          method: 'DELETE',
+        });
+  
+        if (response.ok) {
+          fetchUsuarios(); // Recargar la lista de usuarios después de la eliminación
+        } else {
+          console.error('Error al eliminar usuario');
+        }
+      } catch (error) {
+        console.error('Error al eliminar usuario:', error);
       }
-    } catch (error) {
-      console.error('Error al eliminar usuario:', error);
+    } else {
+      // Si el usuario cancela la acción, mostrar mensaje en la consola
+      console.log('Eliminación de usuario cancelada');
     }
   };
+  
 
   return (
     <Box sx={{ padding: 3 }}>
       <Typography variant="h6" sx={{ marginBottom: 2 }}>
-        Gestionar Usuarios
+        Gestionar Usuarios (Recuerada que los usuarios agregados podran iniciar sesión en la aplicación)
       </Typography>
       <Button variant="contained" color="primary" onClick={() => handleOpenModal()}>
         Agregar Usuario
