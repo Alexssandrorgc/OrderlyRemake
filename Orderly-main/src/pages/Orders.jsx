@@ -54,22 +54,39 @@ const Orders = () => {
 
   return (
     <Container>
-      <IconButton
-        onClick={() => navigate("/")}
+       <Box
         sx={{
-          color: "#fff",
-          marginBottom: 2,
-          position: "absolute", // Fija su posición dentro del contenedor
-          left: "20px", // Ajusta la distancia desde el borde derecho
-          top: "20px", // Ajusta la distancia desde el borde superior
-          padding: "16px", // Ajusta el área interactiva del botón
+          display: 'flex',
+          alignItems: 'center',
+          mt: { xs: 2, sm: 3, md: 4 }, // Margen superior responsivo
+          mb: 2,
         }}
       >
-        <ArrowBackIcon sx={{ fontSize: "40px" }} /> {/* Tamaño del ícono */}
-      </IconButton>
-      <Typography variant="h4" color="#fff" mt={3}>
-        Listado de órdenes
-      </Typography>
+        <IconButton
+          onClick={() => navigate('/')}
+          sx={{
+            color: '#fff',
+            padding: { xs: '8px', sm: '12px', md: '16px' }, // Padding responsivo
+          }}
+        >
+          <ArrowBackIcon
+            sx={{
+              fontSize: { xs: '24px', sm: '32px', md: '40px' }, // Tamaño del ícono responsivo
+            }}
+          />
+        </IconButton>
+        <Typography
+          variant="h4"
+          color="#fff"
+          sx={{
+            ml: 2,
+            textAlign: { xs: 'center', sm: 'left' }, // Alineación responsiva
+            flexGrow: 1,
+          }}
+        >
+          Listado de órdenes
+        </Typography>
+      </Box>
       <Box
         sx={{
           mt: 2,

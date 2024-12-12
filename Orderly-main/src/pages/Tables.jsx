@@ -1,27 +1,27 @@
 import { Alert, Box, Button, Container, Typography } from "@mui/material";
-import { useState, useEffect } from "react";  
+import { useState, useEffect } from "react";
 import Table from "../components/Table/Table";
-import createApiUrl from "../api"; 
-import { useNavigate } from "react-router-dom";  // Importar useNavigate
+import createApiUrl from "../api";
+import { useNavigate } from "react-router-dom"; // Importar useNavigate
 import { IconButton } from "@mui/material";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 const Tables = () => {
   const [selectedTable, setSelectedTable] = useState(null);
-  const [mesas, setMesas] = useState([]);  
-  const navigate = useNavigate();  // Inicializar el hook de navegación
+  const [mesas, setMesas] = useState([]);
+  const navigate = useNavigate(); // Inicializar el hook de navegación
 
   useEffect(() => {
     const fetchMesas = async () => {
       try {
-        const response = await fetch(createApiUrl('mesas'));
+        const response = await fetch(createApiUrl("mesas"));
         const data = await response.json();
-        setMesas(data);  
+        setMesas(data);
       } catch (error) {
         console.error("Error fetching tables:", error);
       }
     };
 
-    fetchMesas();  
+    fetchMesas();
   }, []);
 
   const handleTableClick = (id) => {
@@ -36,7 +36,7 @@ const Tables = () => {
   const handleSelectTable = () => {
     if (selectedTable) {
       // Redirige a la página de "App" o donde desees después de seleccionar la mesa
-      navigate("/app", { state: { selectedTable } });  // Cambia "/app" por la ruta de tu elección
+      navigate("/app", { state: { selectedTable } }); // Cambia "/app" por la ruta de tu elección
     } else {
       // Si no hay mesa seleccionada, muestra un error o alerta
       alert("Por favor, selecciona una mesa.");
@@ -50,29 +50,48 @@ const Tables = () => {
       alert("Por favor, selecciona una mesa.");
     }
   };
-  
 
   return (
     <Container>
       <IconButton
-        onClick={() => navigate("/")}
+          onClick={() => navigate("/")}
+          sx={{
+            color: "#fff",
+            position: "absolute",
+            left: { xs: "10px", sm: "20px", md: "30px" }, // Posición izquierda responsiva
+            top: { xs: "10px", sm: "20px", md: "30px" }, // Posición superior responsiva
+            padding: { xs: "8px", sm: "12px", md: "16px" }, // Padding responsivo
+          }}
+        >
+          <ArrowBackIcon
+            sx={{
+              fontSize: { xs: "24px", sm: "32px", md: "40px" }, // Tamaño del ícono responsivo
+            }}
+          />
+        </IconButton>
+      <Box
         sx={{
-          color: "#fff",
-          marginBottom: 2,
-          position: "absolute", // Fija su posición dentro del contenedor
-          left: "20px", // Ajusta la distancia desde el borde derecho
-          top: "20px", // Ajusta la distancia desde el borde superior
-          padding: "16px", // Ajusta el área interactiva del botón
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "left",
+          mt: { xs: 2, sm: 3, md: 4 }, // Margen superior responsivo
+          position: "relative", // Asegura que los elementos posicionados absolutamente se ubiquen correctamente
         }}
       >
-        <ArrowBackIcon sx={{ fontSize: "40px" }} /> {/* Tamaño del ícono */}
-      </IconButton>
-      <Box sx={{ display: "flex", flexDirection: "column", mt: 4 }}>
-        <Typography variant="h4" sx={{ color: "#fff", fontWeight: "bold" }}>
+        <Typography
+          variant="h4"
+          sx={{
+            color: "#fff",
+            fontWeight: "bold",
+            mt: { xs: 6, sm: 7, md: 2 }, // Margen superior para evitar superposición con el botón
+            ml: { xs: 8, sm: 8, md: 10,lg:2}, // Margen izquierdo responsivo  
+          }}
+        >
           Selecciona una mesa
         </Typography>
-        <Alert severity="info" sx={{ mt: 3 }}>
-          Al seleccionar la mesa, la orden estará asociada a la mesa previamente seleccionada.
+        <Alert severity="info" sx={{ mt: { xs: 2, sm: 3, md: 4 } }}>
+          Al seleccionar la mesa, la orden estará asociada a la mesa previamente
+          seleccionada.
         </Alert>
       </Box>
       <Box
@@ -80,21 +99,22 @@ const Tables = () => {
           mt: 4,
           display: "grid",
           gridTemplateColumns: {
-            xs: '1fr 1fr',
-            sm: '1fr 1fr',
-            md: '1fr 1fr 1fr 1fr',
+            xs: "1fr 1fr",
+            sm: "1fr 1fr",
+            md: "1fr 1fr 1fr 1fr",
           },
           gap: 2,
           justifyItems: "center",
           alignItems: "center",
-        }}>
+        }}
+      >
         {mesas.map((mesa) => (
           <Table
             key={mesa.id}
             idMesa={mesa.numero}
             selected={selectedTable === mesa.numero}
             onClick={handleTableClick}
-            disponible={mesa.disponible}  
+            disponible={mesa.disponible}
           />
         ))}
       </Box>
@@ -104,7 +124,7 @@ const Tables = () => {
           color="success"
           size="large"
           sx={{ mr: 8 }}
-          onClick={handleSelectTable}  // Llama a la función de selección
+          onClick={handleSelectTable} // Llama a la función de selección
         >
           Crear Orden
         </Button>
@@ -112,7 +132,7 @@ const Tables = () => {
           variant="contained"
           color="success"
           size="large"
-          onClick={handleSelectTableFactura}  // Llama a la función de selección
+          onClick={handleSelectTableFactura} // Llama a la función de selección
         >
           Cerrar Orden
         </Button>
