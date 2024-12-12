@@ -56,17 +56,17 @@ const Ganancias = () => {
     const chart = createChart(chartContainerRef.current, {
       width: chartContainerRef.current.clientWidth,
       height: 300,
-      layout: { backgroundColor: "#000", textColor: "#fff" },
-      grid: { vertLines: { color: "#444" }, horzLines: { color: "#444" } },
+      layout: { backgroundColor: "#000", textColor: "#000" },
+      grid: { vertLines: { color: "#000" }, horzLines: { color: "#444" } },
     });
 
-    const lineSeries = chart.addLineSeries({ color: "#c113de", lineWidth: 2 });
+    const lineSeries = chart.addLineSeries({ color: "purple", lineWidth: 5 });
     lineSeries.setData(chartData);
 
     setChartInstance(chart);
 
     return () => chart.remove(); // Limpieza
-  }, [chartData]);
+  }, [chartData]);
 
   // Manejar cambios de rango
   const handleRangeChange = (range) => {

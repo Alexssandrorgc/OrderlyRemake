@@ -101,51 +101,54 @@ const App = () => {
 
   return (
     <Box
-    sx={{
-      display: "flex",
-      flexDirection: { xs: "column", md: "row" },
-      gap: 2,
-    }}
-  >
-        <IconButton
-          onClick={() => navigate("/")}
+      sx={{
+        display: "flex",
+        flexDirection: { xs: "column", md: "row" },
+        gap: 2,
+      }}
+    >
+
+
+      <Container>
+        <Box
           sx={{
-            color: "#fff",
-            position: "absolute",
-            left: { xs: "10px", sm: "20px", md: "30px" }, // Posición izquierda responsiva
-            top: { xs: "10px", sm: "20px", md: "30px" }, // Posición superior responsiva
-            padding: { xs: "8px", sm: "12px", md: "16px" }, // Padding responsivo
+            display: "flex",
+            flexDirection: "row", // Mantén la dirección en fila
+            alignItems: "center", // Alinea los elementos verticalmente al centro
+            mt: { xs: 2, sm: 3, md: 4 }, // Margen superior responsivo
+            position: "relative", // Asegura que los elementos posicionados absolutamente se ubiquen correctamente
           }}
         >
-          <ArrowBackIcon
+          <IconButton
+            onClick={() => navigate("/tables")}
             sx={{
-              fontSize: { xs: "24px", sm: "32px", md: "40px" }, // Tamaño del ícono responsivo
+              color: "#fff",
+              position: "relative", // Cambia a relativa para alinearlo con el texto
+              left: 0, // Elimina la posición izquierda
+              top: 0, // Elimina la posición superior
+              padding: { xs: "8px", sm: "12px", md: "16px" }, // Padding responsivo
+              mr: { xs: 2, sm: 3, md: 4 }, // Margen derecho para separar el ícono del texto
             }}
-          />
-        </IconButton>
-   
-    <Container>
-      <Box
+          >
+            <ArrowBackIcon
               sx={{
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "left",
-                mt: { xs: 2, sm: 3, md: 4 }, // Margen superior responsivo
-                position: "relative", // Asegura que los elementos posicionados absolutamente se ubiquen correctamente
+                fontSize: { xs: "24px", sm: "32px", md: "40px" }, // Tamaño del ícono responsivo
               }}
-            >
-              <Typography
-                variant="h4"
-                sx={{
-                  color: "#fff",
-                  fontWeight: "bold",
-                  mt: { xs: 6, sm: 7, md: 2 }, // Margen superior para evitar superposición con el botón
-                  ml: { xs: 8, sm: 8, md: 8,lg:8,}, // Margen izquierdo responsivo  
-                }}
-              >
-                Selecciona una mesa
-              </Typography>
-            </Box>
+            />
+          </IconButton>
+
+          <Typography
+            variant="h4"
+            sx={{
+              color: "#fff",
+              fontWeight: "bold",
+              ml: { xs: 2, sm: 3, md: 4 }, // Margen izquierdo responsivo
+            }}
+          >
+            Selecciona una mesa
+          </Typography>
+        </Box>
+
         <Categories setMenuItems={setMenuItems} />{" "}
         {/* Pasamos setMenuItems a Categories */}
         <Divider sx={{ mt: 5, bgcolor: "#323232" }} />

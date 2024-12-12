@@ -63,48 +63,77 @@ const Factura = () => {
 
   return (
     <Container>
-      <IconButton
-        onClick={() => navigate("/")}
+      <Box
         sx={{
-          color: "#fff",
-          marginBottom: 2,
-          position: "absolute", // Fija su posición dentro del contenedor
-          left: "20px", // Ajusta la distancia desde el borde derecho
-          top: "20px", // Ajusta la distancia desde el borde superior
-          padding: "16px", // Ajusta el área interactiva del botón
+          display: "flex",
+          flexWrap: "wrap", // Permite que los elementos se ajusten a varias filas en pantallas pequeñas
+          alignItems: "center",
+          width: "100%",
+          padding: "16px",
+          justifyContent: "space-between", // Asegura que el contenido esté distribuido correctamente
         }}
       >
-        <ArrowBackIcon sx={{ fontSize: "40px" }} /> {/* Tamaño del ícono */}
-      </IconButton><IconButton
-        onClick={() => navigate("/Tables")}
-        sx={{
-          color: "#fff",
-          marginBottom: 2,
-          position: "absolute", // Fija su posición dentro del contenedor
-          left: "20px", // Ajusta la distancia desde el borde derecho
-          top: "20px", // Ajusta la distancia desde el borde superior
-          padding: "16px", // Ajusta el área interactiva del botón
-        }}
-      >
-        <ArrowBackIcon sx={{ fontSize: "40px" }} /> {/* Tamaño del ícono */}
-      </IconButton>
-      {/* Botón para abrir el modal, alineado a la derecha */}
-      <Button 
-        variant="contained" 
-        color="primary" 
-        sx={{ position: 'absolute', top: 30, right: 250 }} 
-        onClick={() => setOpenModal(true)}
-      >
-        Pagar cuenta
-      </Button>
+        {/* Fila 1: Icono y Botón */}
+        <Box
+          sx={{
+            display: "flex",
+            alignItems: "center",
+            width: "100%",
+            justifyContent: "space-between", // Alinea el icono a la izquierda y el botón a la derecha
+            order: 1, // Fija esta fila como la primera
+            marginBottom: { xs: "16px", sm: "0" }, // En pantallas pequeñas, da un espacio abajo
+          }}
+        >
+          {/* Icono */}
+          <IconButton
+            onClick={() => navigate("/Tables")}
+            sx={{
+              color: "#fff",
+              padding: "16px",
+              fontSize: "40px",
+            }}
+          >
+            <ArrowBackIcon
+              sx={{
+                fontSize: { xs: "24px", sm: "32px", md: "40px" }, // Tamaño del ícono responsivo
+              }} 
+             />
+          </IconButton>
 
-      <Typography variant="h4" color="#fff" mt={3}>
-        Ordenes completadas
-      </Typography>
-      <Typography variant="h6" color="#fff">Mesa {selectedTable}</Typography>
-      <Typography variant="h6" color="#fff">
-        Total a pagar: {sumaTotalOrdenes}
-      </Typography>
+          {/* Botón */}
+          <Button
+            variant="contained"
+            color="primary"
+            sx={{
+              padding: "12px 24px",
+              minWidth: "120px", // Define un tamaño mínimo para el botón
+            }}
+            onClick={() => setOpenModal(true)}
+          >
+            Pagar cuenta
+          </Button>
+        </Box>
+
+        {/* Fila 2: Texto */}
+        <Box
+          sx={{
+            order: 2, // Esto asegura que el texto esté en la segunda fila
+            width: "100%", // Asegura que el texto ocupe toda la fila
+            textAlign: "left", // Alinea el texto a la izquierda
+          }}
+        >
+          <Typography variant="h4" color="#fff">
+            Ordenes completadas
+          </Typography>
+          <Typography variant="h6" color="#fff">
+            Mesa {selectedTable}
+          </Typography>
+          <Typography variant="h6" color="#fff">
+            Total a pagar: {sumaTotalOrdenes}
+          </Typography>
+        </Box>
+      </Box>
+
 
       <Box
         sx={{
