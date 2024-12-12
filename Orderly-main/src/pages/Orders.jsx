@@ -10,10 +10,13 @@ import {
 } from "@mui/material";
 import AccessTimeIcon from "@mui/icons-material/AccessTime";
 import axios from "axios";
-
+import { IconButton } from "@mui/material";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import { useNavigate } from "react-router-dom";
 
 const Orders = () => {
   const [ordenes, setOrdenes] = useState([]);
+  const navigate = useNavigate();
 
   useEffect(() => {
     // Llamada al backend para obtener las órdenes
@@ -32,7 +35,7 @@ const Orders = () => {
     axios
       .put(
         `http://localhost:8080/api/ordenes/${id}`,
-        { estatus: nuevoEstatus },  // Asegúrate de enviar un objeto JSON
+        { estatus: nuevoEstatus }, // Asegúrate de enviar un objeto JSON
         {
           headers: { "Content-Type": "application/json" },
         }
@@ -51,6 +54,19 @@ const Orders = () => {
 
   return (
     <Container>
+      <IconButton
+        onClick={() => navigate("/")}
+        sx={{
+          color: "#fff",
+          marginBottom: 2,
+          position: "absolute", // Fija su posición dentro del contenedor
+          left: "20px", // Ajusta la distancia desde el borde derecho
+          top: "20px", // Ajusta la distancia desde el borde superior
+          padding: "16px", // Ajusta el área interactiva del botón
+        }}
+      >
+        <ArrowBackIcon sx={{ fontSize: "40px" }} /> {/* Tamaño del ícono */}
+      </IconButton>
       <Typography variant="h4" color="#fff" mt={3}>
         Listado de órdenes
       </Typography>
@@ -95,7 +111,9 @@ const Orders = () => {
                   <Chip
                     icon={<AccessTimeIcon />}
                     label={orden.estatus}
-                    color={orden.estatus === "pendiente" ? "warning" : "success"}
+                    color={
+                      orden.estatus === "pendiente" ? "warning" : "success"
+                    }
                   />
                 </Box>
 
@@ -133,9 +151,7 @@ const Orders = () => {
 
                 <Divider sx={{ my: 2 }} />
 
-                <Box
-                 
-                >
+                <Box>
                   <Button
                     variant="outlined"
                     color="primary"

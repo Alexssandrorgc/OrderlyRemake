@@ -11,23 +11,15 @@ const TableDialog = ({ open, onClose, onSave }) => {
   }
 
   const handleSave = () => {
-    onSave(name)
-  }
+    onSave(name);  // Guarda el nombre del mesero
+    onClose();     // Cierra el diálogo
+  };
 
   return (
     <Dialog
       open={open}
       onClose={onClose}
-      PaperProps={{
-        component: 'form',
-        onSubmit: (event) => {
-          event.preventDefault();
-          const formData = new FormData(event.currentTarget);
-          const formJson = Object.fromEntries(formData.entries());
-          //console.log(formJson); //Aqui imprime el objeto con el nombre del mesero
-          onClose();
-        },
-      }}
+      
     >
       <DialogTitle>Ingresa el nombre del mesero</DialogTitle>
       <DialogContent>
@@ -52,7 +44,7 @@ const TableDialog = ({ open, onClose, onSave }) => {
     </Dialog>
   )
 };
-
+console.log(name);
 TableDialog.propTypes = {
   open: PropTypes.bool.isRequired,
   onClose: PropTypes.func.isRequired,
